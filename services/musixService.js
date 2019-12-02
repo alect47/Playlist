@@ -5,9 +5,9 @@ const fetch = require('node-fetch');
 // const Favorite = require('../models/favorite')
 
 async function fetchMusic(title, artist) {
-  let response = await fetch(`  http://api.musixmatch.com/ws/1.1/track.search?q_artist=${artist}&s_track_rating=desc&apikey${process.env.MUSIXMATCH_API_KEY}=&q_track=${title}`);
+  let response = await fetch(`http://api.musixmatch.com/ws/1.1/track.search?q_artist=${artist}&s_track_rating=desc&apikey=${process.env.MUSIXMATCH_API_KEY}&q_track=${title}`);
   let songs = await response.json();
-  console.log(songs)
+  // console.log(songs)
   return songs;
 }
 
