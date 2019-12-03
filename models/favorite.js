@@ -3,9 +3,7 @@ class Favorite {
   constructor(musicData, genreData) {
     this.title = musicData.track_name;
     this.artistName = musicData.artist_name;
-    // console.log(setGenre(genreData));
     this.genre = genreData;
-    // this.genre = genreData;
     this.rating = musicData.track_rating;
   }
 
