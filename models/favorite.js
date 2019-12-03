@@ -7,9 +7,6 @@ class Favorite {
     this.rating = musicData.track_rating;
   }
 
-// This function isn't working, but it could be useful, otherwise need to set a default value
-// in the database
-// Might need to make it an async
   setGenre(genreData) {
     if(!genreData) {
       this.genre = "Unknown"
