@@ -24,7 +24,7 @@ router.post('/', (request, response) => {
           .then(data => response.status(201).send(musicData))
         }
         else {
-          response.sendStatus(400)
+          response.status(400).json({error: "Invalid song title or artist"})
         }
     })
 });
