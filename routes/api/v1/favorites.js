@@ -17,13 +17,11 @@ router.post('/', (request, response) => {
   fetchMusic(title, artist)
     .then(musicData => {
       if(musicData) {
-      database('favorites').insert({ title: `${musicData.title}`, artistName: `${musicData.artistName}`, genre: `${musicData.genre}`, rating: `${musicData.rating}`}, "id")
-        .then(id => {
-          musicData.id = id[0]
-        })
-          .then(data => response.status(201).send(musicData))
-        }
-        else {
+        database('favorites')
+          .insert({ title: `${musicData.title}`, artistName: `${musicData.artistName}`, genre: `${musicData.genre}`, rating: `${musicData.rating}`}, "id")
+          .returning(["id", "title", "artistName", "genre", "rating"])
+          .then(data => response.status(201).send(data[0]))
+        } else {
           response.status(400).json({error: "Invalid song title or artist"})
         }
     })
