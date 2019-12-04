@@ -37,6 +37,10 @@ describe('Test POST api/v1/favorites', () => {
     expect(res.statusCode).toBe(400)
     expect(res.body.error).toBe("Invalid song title or artist")
   })
+
+  afterEach(() => {
+    database.raw('truncate table favorites cascade');
+  });
 });
 
 describe('Test GET api/v1/favorites/:id', () => {
@@ -56,7 +60,7 @@ describe('Test GET api/v1/favorites/:id', () => {
   afterEach(() => {
     database.raw('truncate table favorites cascade');
   });
-  
+
   it('should get a favorite song by id', async() => {
     let res = await request(app)
                   .get('/api/v1/favorites/2')
