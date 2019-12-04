@@ -6,11 +6,6 @@ const environment = process.env.NODE_ENV || 'test';
 const configuration = require('../../knexfile')[environment];
 const database = require('knex')(configuration);
 
-// Test for: successful API call, check status code to be 201.
-//  check for correct attributes in response.
-// check that a new record was created in the db.
-// sad path testing for status code 400.
-
 describe('Test POST api/v1/favorites', () => {
   it('should create a new favorite', async() => {
     const body = { "song_title": "beginners luck", "artist": "maribou state" }
@@ -101,4 +96,53 @@ describe('Test GET api/v1/favorites', () => {
       expect(res.statusCode).toBe(404)
       expect(res.body.error).toBe("No favorites found")
     })
+
+  afterEach(() => {
+    database.raw('truncate table favorites cascade');
+  });
+});
+
+describe('Test GET api/v1/favorites/:id', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table favorites cascade');
+
+    let songData = {
+      id: 2,
+      title: "Test Song",
+      artistName: "Test Artist",
+      genre: "Test Genre",
+      rating: 14
+    };
+    await database('favorites').insert(songData);
+  });
+
+  afterEach(() => {
+    database.raw('truncate table favorites cascade');
+  });
+
+  it('should get a favorite song by id', async() => {
+    let res = await request(app)
+                  .get('/api/v1/favorites/2')
+    expect(res.statusCode).toBe(200)
+
+    expect(res.body).toHaveProperty('title')
+    expect(res.body.title).toBe("Test Song")
+
+    expect(res.body).toHaveProperty('artistName')
+    expect(res.body.artistName).toBe("Test Artist")
+
+    expect(res.body).toHaveProperty('genre')
+    expect(res.body.genre).toBe("Test Genre")
+
+    expect(res.body).toHaveProperty('rating')
+    expect(res.body.rating).toBe(14)
+
+    expect(res.body).toHaveProperty('id')
+  })
+
+  it('should generate error message for sad path', async() => {
+    const res = await request(app)
+                  .get('/api/v1/favorites/10')
+    expect(res.statusCode).toBe(404)
+  })
 });
