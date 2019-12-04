@@ -29,6 +29,7 @@ describe('Test POST api/v1/favorites', () => {
     expect(res.body).toHaveProperty('id')
   })
 
+
   it('should generate error message for sad path', async() => {
     const body = { "song_title": " ", "artist": "maribou state" }
     const res = await request(app)
