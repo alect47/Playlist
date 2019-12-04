@@ -43,3 +43,43 @@ describe('Test POST api/v1/favorites', () => {
     expect(res.body.error).toBe("Invalid song title or artist")
   })
 });
+
+describe('Test GET api/v1/favorites', () => {
+  it('should get all favorites', async() => {
+    const body = { "song_title": "beginners luck", "artist": "maribou state" }
+    const queenBody = { "song_title": "under pressure", "artist": "queen"}
+    await request(app)
+              .post("/api/v1/favorites")
+              .send(body)
+    await request(app)
+              .post("/api/v1/favorites")
+              .send(queenBody)
+    const res = await request(app).get("/api/v1/favorites")
+
+    expect(res.statusCode).toBe(200)
+
+    expect(res[0].body).toHaveProperty('title')
+    expect(res[0].body.title).toBe("Beginner's Luck")
+
+    expect(res[0].body).toHaveProperty('artistName')
+    expect(res[0].body.artistName).toBe("Maribou State")
+
+    expect(res[0].body).toHaveProperty('genre')
+    expect(res[0].body.genre).toBe("Electronic")
+
+    expect(res[0].body).toHaveProperty('rating')
+    expect(res[0].body.rating).toBe(14)
+
+    expect(res[0].body).toHaveProperty('id')
+
+    expect(res[1].body.title).toBe("Under Pressure")
+
+    expect(res[1].body.artistName).toBe("Queen")
+
+    expect(res[1].body.genre).toBe("Electronic")
+
+    expect(res[1].body.rating).toBe(77)
+
+    expect(res[1].body).toHaveProperty('id')
+  })
+});
