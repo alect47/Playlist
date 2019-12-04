@@ -6,11 +6,6 @@ const environment = process.env.NODE_ENV || 'test';
 const configuration = require('../../knexfile')[environment];
 const database = require('knex')(configuration);
 
-// Test for: successful API call, check status code to be 201.
-//  check for correct attributes in response.
-// check that a new record was created in the db.
-// sad path testing for status code 400.
-
 describe('Test POST api/v1/favorites', () => {
   it('should create a new favorite', async() => {
     const body = { "song_title": "beginners luck", "artist": "maribou state" }
@@ -41,5 +36,37 @@ describe('Test POST api/v1/favorites', () => {
                   .send(body)
     expect(res.statusCode).toBe(400)
     expect(res.body.error).toBe("Invalid song title or artist")
+  })
+});
+
+describe('Test GET api/v1/favorites/:id', () => {
+  it('should get a favorite song by id', async() => {
+    const id = { "id": 4 }
+    const res = await request(app)
+                  .get(`/api/v1/favorites/${id}`)
+                  // .send(body)
+    expect(res.statusCode).toBe(200)
+
+    // expect(res.body).toHaveProperty('title')
+    // expect(res.body.title).toBe("Beginner's Luck")
+    //
+    // expect(res.body).toHaveProperty('artistName')
+    // expect(res.body.artistName).toBe("Maribou State")
+    //
+    // expect(res.body).toHaveProperty('genre')
+    // expect(res.body.genre).toBe("Electronic")
+    //
+    // expect(res.body).toHaveProperty('rating')
+    // expect(res.body.rating).toBe(14)
+    //
+    // expect(res.body).toHaveProperty('id')
+  })
+
+  it('should generate error message for sad path', async() => {
+    const id = { "id": 45 }
+    const res = await request(app)
+                  .get(`/api/v1/favorites/${id}`)
+    expect(res.statusCode).toBe(400)
+    // expect(res.body.error).toBe("Invalid song title or artist")
   })
 });
