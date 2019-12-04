@@ -29,15 +29,20 @@ router.post('/', (request, response) => {
 
 router.get('/:id', (request, response) => {
   let songId = request.params.id
-
-  
-  database('favorites').where('id', songId).first().select('id', 'title', 'artistName', 'genre', 'rating')
-    .then(songDetails => {
-      response.status(200).send(songDetails)
+  database('favorites').where('id', songId).first()
+    .then(songRecord => {
+      if (songRecord) {
+        database('favorites')
+          .where('id', songId)
+          .first()
+          .select('id', 'title', 'artistName', 'genre', 'rating')
+            .then(songData => {
+              response.status(200).send(songData)
+            })
+      } else {
+        response.sendStatus(404)
+      }
     })
-// respond with JSON object & status code of 200
-// return only if id exists, else send status code of 404
-
 });
 
 module.exports = router;
