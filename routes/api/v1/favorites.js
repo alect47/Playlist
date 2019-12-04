@@ -27,4 +27,15 @@ router.post('/', (request, response) => {
     })
 });
 
+router.get('/', (request, response) => {
+// pass in id inside the body, this should come thru in the request or params?
+// Need a new endponint is app.js?
+// var favoriteByIdRouter = require('./routes/api/v1/favorites/:id');
+
+// find a match for the id in the database
+// respond with JSON object & status code of 200
+// return only if id exists, else send status code of 404
+
+});
+
 module.exports = router;
