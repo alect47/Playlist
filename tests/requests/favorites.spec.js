@@ -40,33 +40,45 @@ describe('Test POST api/v1/favorites', () => {
 });
 
 describe('Test GET api/v1/favorites/:id', () => {
+  beforeEach(async () => {
+  await database.raw('truncate table favorites cascade');
+
+  let songData = {
+    id: 2,
+    title: "Test Song",
+    artistName: "Test Artist",
+    genre: "Test Genre",
+    rating: 14
+  };
+  await database('favorites').insert(songData);
+});
+
+afterEach(() => {
+  database.raw('truncate table favorites cascade');
+});
   it('should get a favorite song by id', async() => {
-    const id = { "id": 4 }
-    const res = await request(app)
-                  .get(`/api/v1/favorites/${id}`)
-                  // .send(body)
+    let res = await request(app)
+                  .get('/api/v1/favorites/2')
     expect(res.statusCode).toBe(200)
 
-    // expect(res.body).toHaveProperty('title')
-    // expect(res.body.title).toBe("Beginner's Luck")
-    //
-    // expect(res.body).toHaveProperty('artistName')
-    // expect(res.body.artistName).toBe("Maribou State")
-    //
-    // expect(res.body).toHaveProperty('genre')
-    // expect(res.body.genre).toBe("Electronic")
-    //
-    // expect(res.body).toHaveProperty('rating')
-    // expect(res.body.rating).toBe(14)
-    //
-    // expect(res.body).toHaveProperty('id')
+    expect(res.body).toHaveProperty('title')
+    expect(res.body.title).toBe("Test Song")
+
+    expect(res.body).toHaveProperty('artistName')
+    expect(res.body.artistName).toBe("Test Artist")
+
+    expect(res.body).toHaveProperty('genre')
+    expect(res.body.genre).toBe("Test Genre")
+
+    expect(res.body).toHaveProperty('rating')
+    expect(res.body.rating).toBe(14)
+
+    expect(res.body).toHaveProperty('id')
   })
 
   it('should generate error message for sad path', async() => {
-    const id = { "id": 45 }
     const res = await request(app)
-                  .get(`/api/v1/favorites/${id}`)
-    expect(res.statusCode).toBe(400)
-    // expect(res.body.error).toBe("Invalid song title or artist")
+                  .get('/api/v1/favorites/10')
+    expect(res.statusCode).toBe(404)
   })
 });
