@@ -27,12 +27,26 @@ router.post('/', (request, response) => {
     })
 });
 
+async function allFavorites() {
+  try {
+    let response = await database('favorites').select("id", "title", "artistName", "genre", "rating")
+    return response;
+  } catch(err) {
+    return err;
+  }
+}
+
 router.get('/', (request, response) => {
-
-database('favorites')
-  .then(data => response.status(200).send(data))
-  .catch(reason => response.send(reason.message))
-
+  allFavorites()
+    .then(faves => {
+      if (faves.length) {
+        response.status(200).send(faves)
+      } else {
+        response.status(404).json({
+          error: `No favorites found`
+        });
+      }
+    })
 });
 
 module.exports = router;
