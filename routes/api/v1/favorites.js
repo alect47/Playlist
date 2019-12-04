@@ -45,6 +45,9 @@ router.get('/', (request, response) => {
         response.status(404).json({
           error: `No favorites found`
         });
+      }
+    })
+  });
 
 router.get('/:id', (request, response) => {
   let songId = request.params.id
