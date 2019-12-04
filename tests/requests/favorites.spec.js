@@ -29,6 +29,7 @@ describe('Test POST api/v1/favorites', () => {
     expect(res.body).toHaveProperty('id')
   })
 
+
   it('should generate error message for sad path', async() => {
     const body = { "song_title": " ", "artist": "maribou state" }
     const res = await request(app)
@@ -143,6 +144,36 @@ describe('Test GET api/v1/favorites/:id', () => {
   it('should generate error message for sad path', async() => {
     const res = await request(app)
                   .get('/api/v1/favorites/10')
+    expect(res.statusCode).toBe(404)
+  })
+});
+
+describe('Test DELETE api/v1/favorites/:id', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table favorites cascade');
+
+    let songData = {
+      id: 2,
+      title: "Test Song",
+      artistName: "Test Artist",
+      genre: "Test Genre",
+      rating: 14
+    };
+    await database('favorites').insert(songData);
+  });
+
+  afterEach(() => {
+    database.raw('truncate table favorites cascade');
+  });
+
+  it('should get a favorite song by id', async() => {
+    let res = await request(app)
+                  .delete('/api/v1/favorites/2')
+    expect(res.statusCode).toBe(204)
+  })
+  it('should generate error message for sad path', async() => {
+    const res = await request(app)
+                  .delete('/api/v1/favorites/10')
     expect(res.statusCode).toBe(404)
   })
 });
