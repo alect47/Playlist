@@ -27,4 +27,44 @@ router.post('/', (request, response) => {
     })
 });
 
+async function allFavorites() {
+  try {
+    let response = await database('favorites').select("id", "title", "artistName", "genre", "rating")
+    return response;
+  } catch(err) {
+    return err;
+  }
+}
+
+router.get('/', (request, response) => {
+  allFavorites()
+    .then(faves => {
+      if (faves.length) {
+        response.status(200).send(faves)
+      } else {
+        response.status(404).json({
+          error: `No favorites found`
+        });
+      }
+    })
+  });
+
+router.get('/:id', (request, response) => {
+  let songId = request.params.id
+  database('favorites').where('id', songId).first()
+    .then(songRecord => {
+      if (songRecord) {
+        database('favorites')
+          .where('id', songId)
+          .first()
+          .select('id', 'title', 'artistName', 'genre', 'rating')
+            .then(songData => {
+              response.status(200).send(songData)
+            })
+      } else {
+        response.sendStatus(404)
+      }
+    })
+});
+
 module.exports = router;
