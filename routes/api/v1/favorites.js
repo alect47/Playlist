@@ -36,6 +36,18 @@ async function allFavorites() {
   }
 }
 
+async function favorite(songId) {
+  try {
+    let response = await database('favorites')
+      .where('id', songId)
+      .first()
+      .select('id', 'title', 'artistName', 'genre', 'rating')
+    return response;
+  } catch(err) {
+    return err;
+  }
+}
+
 router.get('/', (request, response) => {
   allFavorites()
     .then(faves => {
@@ -54,13 +66,26 @@ router.get('/:id', (request, response) => {
   database('favorites').where('id', songId).first()
     .then(songRecord => {
       if (songRecord) {
-        database('favorites')
-          .where('id', songId)
-          .first()
-          .select('id', 'title', 'artistName', 'genre', 'rating')
+        favorite(songId)
             .then(songData => {
               response.status(200).send(songData)
             })
+      } else {
+        response.sendStatus(404)
+      }
+    })
+});
+
+router.delete('/:id', (request, response) => {
+  let songId = request.params.id
+  database('favorites').where('id', songId).first()
+    .then(songRecord => {
+      if (songRecord) {
+        database('favorites')
+          .where('id', songId)
+          .first()
+          .del()
+            .then(response.sendStatus(204))
       } else {
         response.sendStatus(404)
       }
