@@ -29,10 +29,9 @@ router.post('/', (request, response) => {
 
 router.get('/', (request, response) => {
 
-  // database('favorites')
-  //   .insert({ title: `${musicData.title}`, artistName: `${musicData.artistName}`, genre: `${musicData.genre}`, rating: `${musicData.rating}`}, "id")
-  //   .returning(["id", "title", "artistName", "genre", "rating"])
-  //   .then(data => response.status(201).send(data[0]))
+database('favorites')
+  .then(data => response.status(200).send(data))
+  .catch(reason => response.send(reason.message))
 
 });
 
