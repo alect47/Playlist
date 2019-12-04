@@ -45,41 +45,44 @@ describe('Test POST api/v1/favorites', () => {
 });
 
 describe('Test GET api/v1/favorites', () => {
-  it('should get all favorites', async() => {
-    const body = { "song_title": "beginners luck", "artist": "maribou state" }
-    const queenBody = { "song_title": "under pressure", "artist": "queen"}
-    await request(app)
-              .post("/api/v1/favorites")
-              .send(body)
-    await request(app)
-              .post("/api/v1/favorites")
-              .send(queenBody)
-    const res = await request(app).get("/api/v1/favorites")
+  beforeEach(async () => {
+     await database.raw('truncate table favorites cascade');
+    it('should get all favorites', async() => {
+      const body = { "song_title": "beginners luck", "artist": "maribou state" }
+      const queenBody = { "song_title": "under pressure", "artist": "queen"}
+      await request(app)
+                .post("/api/v1/favorites")
+                .send(body)
+      await request(app)
+                .post("/api/v1/favorites")
+                .send(queenBody)
+      const res = await request(app).get("/api/v1/favorites")
 
-    expect(res.statusCode).toBe(200)
+      expect(res.statusCode).toBe(200)
+      
+      expect(res.body[0]).toHaveProperty('title')
+      expect(res.body[0].title).toBe("Beginner's Luck")
 
-    expect(res[0].body).toHaveProperty('title')
-    expect(res[0].body.title).toBe("Beginner's Luck")
+      expect(res.body[0]).toHaveProperty('artistName')
+      expect(res.body[0].artistName).toBe("Maribou State")
 
-    expect(res[0].body).toHaveProperty('artistName')
-    expect(res[0].body.artistName).toBe("Maribou State")
+      expect(res.body[0]).toHaveProperty('genre')
+      expect(res.body[0].genre).toBe("Electronic")
 
-    expect(res[0].body).toHaveProperty('genre')
-    expect(res[0].body.genre).toBe("Electronic")
+      expect(res.body[0]).toHaveProperty('rating')
+      expect(res.body[0].rating).toBe(14)
 
-    expect(res[0].body).toHaveProperty('rating')
-    expect(res[0].body.rating).toBe(14)
+      expect(res.body[0]).toHaveProperty('id')
 
-    expect(res[0].body).toHaveProperty('id')
+      expect(res.body[0].title).toBe("Under Pressure")
 
-    expect(res[1].body.title).toBe("Under Pressure")
+      expect(res.body[0].artistName).toBe("Queen")
 
-    expect(res[1].body.artistName).toBe("Queen")
+      expect(res.body[0].genre).toBe("Electronic")
 
-    expect(res[1].body.genre).toBe("Electronic")
+      expect(res.body[0].rating).toBe(77)
 
-    expect(res[1].body.rating).toBe(77)
-
-    expect(res[1].body).toHaveProperty('id')
+      expect(res.body[0]).toHaveProperty('id')
+    })
   })
 });
