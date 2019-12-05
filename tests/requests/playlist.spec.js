@@ -80,10 +80,10 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[0]).toHaveProperty('title')
       expect(res.body[0].title).toBe("Test Title 1")
 
-      expect(res.body[0]).toHaveProperty('createdAt')
+      // expect(res.body[0]).toHaveProperty('createdAt')
       // expect(res.body[0].created_at).toBe(" ")
 
-      expect(res.body[0]).toHaveProperty('updatedAt')
+      // expect(res.body[0]).toHaveProperty('updatedAt')
       // expect(res.body[0].updated_at).toBe("")
 
 
@@ -92,12 +92,12 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[1]).toHaveProperty('id')
 
       expect(res.body[1]).toHaveProperty('title')
-      expect(res.body[1].title).toBe("Test Title 1")
+      expect(res.body[1].title).toBe("Test Title 2")
 
-      expect(res.body[1]).toHaveProperty('createdAt')
+      // expect(res.body[1]).toHaveProperty('createdAt')
       // expect(res.body[1].created_at).toBe(" ")
 
-      expect(res.body[1]).toHaveProperty('updatedAt')
+      // expect(res.body[1]).toHaveProperty('updatedAt')
       // expect(res.body[1].updated_at).toBe("")
     })
 
