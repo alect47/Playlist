@@ -12,28 +12,32 @@ async function formatData(data) {
   let playlist = await new Playlist(data);
   return playlist;
 }
+
 router.post('/', (request, response) => {
   const title = request.body.title
 
-  database('playlists')
-    .where('title', title).first()
-      .then(playlist => {
-        if (playlist) {
-          response.status(400).send(`Playlist with title: ${title} already exists`)
-        } else {
-          database('playlists')
-            .insert({title: title}, "id")
-            .returning(["id", "title", "created_at", "updated_at"])
-            .then(data => {
-              // console.log(data)
-              formatData(data[0])
-                .then(formattedData => {
-                  console.log(formattedData)
-                })
-              // response.status(201).send(data[0])
-            })
-        }
-      })
+  if (title.length) {
+    database('playlists')
+      .where('title', title).first()
+        .then(playlist => {
+          if (playlist) {
+            response.status(400).json({error: `Playlist with title: ${title} already exists`})
+          } else {
+            database('playlists')
+              .insert({title: title}, "id")
+              .returning(["id", "title", "created_at", "updated_at"])
+              .then(data => {
+                formatData(data[0])
+                  .then(formattedData => {
+                    response.status(201).send(formattedData)
+                  })
+              })
+          }
+        })
+      }
+    else {
+      response.status(400).json({error: "Please provide a title"})
+    }
 });
 
 module.exports = router;
