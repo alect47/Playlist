@@ -62,7 +62,7 @@ describe('Test GET api/v1/playlists', () => {
   beforeEach(async () => {
      await database.raw('truncate table playlists cascade');
    })
-    it('should get all favorites', async() => {
+    it('should get all playlists', async() => {
       const bodyTitle1 = { "title": "Test Title 1" }
       const bodyTitle2 = { "title": "Test Title 2"}
       await request(app)
