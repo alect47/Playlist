@@ -86,7 +86,7 @@ describe('Test GET api/v1/favorites', () => {
 
       expect(res.body[1].genre).toBe("Rock")
 
-      expect(res.body[1].rating).toBe(67)
+      expect(res.body[1].rating).toBe(66)
 
       expect(res.body[1]).toHaveProperty('id')
     })
