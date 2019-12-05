@@ -12,9 +12,9 @@ describe('Test POST api/v1/playlists', () => {
   });
 
   afterEach(() => {
-    database.raw('truncate table favorites cascade');
+    database.raw('truncate table playlists cascade');
   });
-  
+
   it('should create a new playlist', async() => {
     const body = { "title": "Cleaning House" }
     const res = await request(app)
