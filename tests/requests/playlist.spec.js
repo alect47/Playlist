@@ -39,7 +39,7 @@ describe('Test POST api/v1/playlists', () => {
       id: 1,
       title: "Cleaning House",
     }
-    await database('playlists').insert(playlistDAta);
+    await database('playlists').insert(playlistData);
 
     const body = { "title": "Cleaning House" }
     const res = await request(app)
