@@ -7,6 +7,14 @@ const configuration = require('../../knexfile')[environment];
 const database = require('knex')(configuration);
 
 describe('Test POST api/v1/playlists', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table playlists cascade');
+  });
+
+  afterEach(() => {
+    database.raw('truncate table favorites cascade');
+  });
+  
   it('should create a new playlist', async() => {
     const body = { "title": "Cleaning House" }
     const res = await request(app)
@@ -46,6 +54,6 @@ describe('Test POST api/v1/playlists', () => {
                   .post("/api/v1/playlists")
                   .send(body)
     expect(res.statusCode).toBe(400)
-    expect(res.body.error).toBe("Title already exists")
+    expect(res.body.error).toBe("Playlist with title: Cleaning House already exists")
   })
 });
