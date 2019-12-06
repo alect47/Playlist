@@ -75,7 +75,7 @@ describe('Test DELETE api/v1/playlists/:id', () => {
 
   it('should delete a playlist song by id', async() => {
     let res = await request(app)
-                  .delete('/api/v1/playlists/2')
+                  .delete('/api/v1/playlists/1')
     expect(res.statusCode).toBe(204)
   })
   it('should generate error message for sad path', async() => {
