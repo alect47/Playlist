@@ -60,8 +60,12 @@ describe('Test POST api/v1/playlists', () => {
 
 describe('Test GET api/v1/playlists', () => {
   beforeEach(async () => {
-     await database.raw('truncate table playlists cascade');
-   })
+    await database.raw('truncate table playlists cascade');
+  });
+
+  afterEach(() => {
+    database.raw('truncate table playlists cascade');
+  });
     it('should get all playlists', async() => {
       const bodyTitle1 = { "title": "Test Title 1" }
       const bodyTitle2 = { "title": "Test Title 2"}
@@ -107,8 +111,28 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.statusCode).toBe(404)
       expect(res.body.error).toBe("No playlists found")
     })
+});
 
-  afterEach(() => {
-    database.raw('truncate table playlists cascade');
+
+describe('Test DELETE api/v1/playlists/:id', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table playlists cascade');
+
+    let playlistData = {
+      id: 1,
+      title: "Cleaning House",
+    }
+    await database('playlists').insert(playlistData);
   });
+
+  it('should delete a playlist song by id', async() => {
+    let res = await request(app)
+                  .delete('/api/v1/playlists/1')
+    expect(res.statusCode).toBe(204)
+  })
+  it('should generate error message for sad path', async() => {
+    const res = await request(app)
+                  .delete('/api/v1/playlists/10')
+    expect(res.statusCode).toBe(404)
+  })
 });
