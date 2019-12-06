@@ -57,3 +57,30 @@ describe('Test POST api/v1/playlists', () => {
     expect(res.body.error).toBe("Playlist with title: Cleaning House already exists")
   })
 });
+
+describe('Test DELETE api/v1/playlists/:id', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table playlists cascade');
+
+    let playlistData = {
+      id: 1,
+      title: "Cleaning House",
+    }
+    await database('playlists').insert(playlistData);
+  });
+
+  afterEach(() => {
+    database.raw('truncate table playlists cascade');
+  });
+
+  it('should delete a playlist song by id', async() => {
+    let res = await request(app)
+                  .delete('/api/v1/playlists/2')
+    expect(res.statusCode).toBe(204)
+  })
+  it('should generate error message for sad path', async() => {
+    const res = await request(app)
+                  .delete('/api/v1/playlists/10')
+    expect(res.statusCode).toBe(404)
+  })
+});
