@@ -40,6 +40,36 @@ router.post('/', (request, response) => {
     }
 });
 
+router.put('/:id', (request, response) => {
+  let playlistId = request.params.id
+  let title = request.body.title
+
+  if (title) {
+    database('playlists').where('title', title)
+      .then(playlist => {
+        if (playlist.length) {
+          response.status(400).json({error: `Playlist with title: ${title} already exists`})
+        }
+        else {
+          database('playlists').where('id', playlistId).first()
+            .then(playlistRecord => {
+              if (playlistRecord) {
+                database('playlists').where('id', playlistId)
+                .update({title: title})
+                .returning(["id", "title", "created_at", "updated_at"])
+                .then(data => response.status(200).send(data))
+              } else {
+                response.sendStatus(404)
+              }
+            })
+        }
+      })
+    }
+  else {
+    response.status(400).json({error: "Please provide a title"})
+  }
+});
+
 router.delete('/:id', (request, response) => {
   let playlistId = request.params.id
   database('playlists').where('id', playlistId).first()
