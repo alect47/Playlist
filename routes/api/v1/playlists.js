@@ -27,10 +27,10 @@ router.post('/', (request, response) => {
               .insert({title: title}, "id")
               .returning(["id", "title", "created_at", "updated_at"])
               .then(data => {
-                formatData(data[0])
-                  .then(formattedData => {
-                    response.status(201).send(formattedData)
-                  })
+                // formatData(data[0])
+                  // .then(formattedData => {
+                    response.status(201).send(data[0])
+                  // })
               })
           }
         })
@@ -90,29 +90,29 @@ router.get('/', (request, response) => {
   database('playlists').select('*')
     .then(playlists => {
       if (playlists.length) {
-        formatPlaylistArray(playlists)
-          .then(data => {
-            response.status(200).send(data)
-          })
+        // formatPlaylistArray(playlists)
+          // .then(data => {
+            response.status(200).send(playlists)
+          // })
       } else {
         response.status(404).json({ error: 'No playlists found'})
       }
     })
 });
 
-async function formatPlaylistArray(playlists){
-  let playlistArray = []
-  await asyncForEach(playlists, async (playlistElement) => {
-    let formattedPlaylist = await new Playlist(playlistElement)
-    playlistArray.push(formattedPlaylist)
-  })
-  return playlistArray;
-}
-
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index++) {
-      await callback(array[index], index, array);
-  }
-}
+// async function formatPlaylistArray(playlists){
+//   let playlistArray = []
+//   await asyncForEach(playlists, async (playlistElement) => {
+//     let formattedPlaylist = await new Playlist(playlistElement)
+//     playlistArray.push(formattedPlaylist)
+//   })
+//   return playlistArray;
+// }
+//
+// async function asyncForEach(array, callback) {
+//   for (let index = 0; index < array.length; index++) {
+//       await callback(array[index], index, array);
+//   }
+// }
 
 module.exports = router;
