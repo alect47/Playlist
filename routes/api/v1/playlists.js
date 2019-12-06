@@ -40,4 +40,21 @@ router.post('/', (request, response) => {
     }
 });
 
+router.delete('/:id', (request, response) => {
+  let playlistId = request.params.id
+  database('playlists').where('id', playlistId).first()
+    .then(playlistRecord => {
+      if (playlistRecord) {
+        database('playlists')
+          .where('id', playlistId)
+          .first()
+          .del()
+            .then(response.sendStatus(204))
+      } else {
+        response.sendStatus(404)
+      }
+    })
+});
+
+
 module.exports = router;
