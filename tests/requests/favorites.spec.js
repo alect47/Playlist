@@ -166,7 +166,7 @@ describe('Test DELETE api/v1/favorites/:id', () => {
     database.raw('truncate table favorites cascade');
   });
 
-  it('should get a favorite song by id', async() => {
+  it('should delete a favorite song by id', async() => {
     let res = await request(app)
                   .delete('/api/v1/favorites/2')
     expect(res.statusCode).toBe(204)
