@@ -24,7 +24,7 @@ describe('Test POST api/v1/favorites', () => {
     expect(res.body.genre).toBe("Electronic")
 
     expect(res.body).toHaveProperty('rating')
-    expect(res.body.rating).toBe(14)
+    expect(res.body.rating).toBe(15)
 
     expect(res.body).toHaveProperty('id')
   })
@@ -76,7 +76,7 @@ describe('Test GET api/v1/favorites', () => {
       expect(res.body[0].genre).toBe("Electronic")
 
       expect(res.body[0]).toHaveProperty('rating')
-      expect(res.body[0].rating).toBe(14)
+      expect(res.body[0].rating).toBe(15)
 
       expect(res.body[0]).toHaveProperty('id')
 
@@ -86,7 +86,7 @@ describe('Test GET api/v1/favorites', () => {
 
       expect(res.body[1].genre).toBe("Rock")
 
-      expect(res.body[1].rating).toBe(67)
+      expect(res.body[1].rating).toBe(71)
 
       expect(res.body[1]).toHaveProperty('id')
     })
