@@ -86,10 +86,10 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[0].title).toBe("Test Title 1")
 
       expect(res.body[0]).toHaveProperty('created_at')
-      expect(res.body[0].created_at).toBe(playlist1.created_at)
+      expect(res.body[0].created_at).toBe(playlist1.body.created_at)
 
       expect(res.body[0]).toHaveProperty('updated_at')
-      expect(res.body[0].updated_at).toBe(playlist1.updated_at)
+      expect(res.body[0].updated_at).toBe(playlist1.body.updated_at)
 
 
       expect(res.statusCode).toBe(200)
@@ -100,10 +100,10 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[1].title).toBe("Test Title 2")
 
       expect(res.body[1]).toHaveProperty('created_at')
-      expect(res.body[1].created_at).toBe(playlist2.created_at)
+      expect(res.body[1].created_at).toBe(playlist2.body.created_at)
 
       expect(res.body[1]).toHaveProperty('updated_at')
-      expect(res.body[1].created_at).toBe(playlist2.updated_at)
+      expect(res.body[1].created_at).toBe(playlist2.body.updated_at)
     })
 
     it('should generate error message for sad path', async() => {
