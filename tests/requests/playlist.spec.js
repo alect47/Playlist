@@ -85,10 +85,10 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[0]).toHaveProperty('title')
       expect(res.body[0].title).toBe("Test Title 1")
 
-      expect(res.body[0]).toHaveProperty('createdAt')
+      expect(res.body[0]).toHaveProperty('created_at')
       expect(res.body[0].created_at).toBe(playlist1.created_at)
 
-      expect(res.body[0]).toHaveProperty('updatedAt')
+      expect(res.body[0]).toHaveProperty('updated_at')
       expect(res.body[0].updated_at).toBe(playlist1.updated_at)
 
 
@@ -99,10 +99,10 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[1]).toHaveProperty('title')
       expect(res.body[1].title).toBe("Test Title 2")
 
-      expect(res.body[1]).toHaveProperty('createdAt')
+      expect(res.body[1]).toHaveProperty('created_at')
       expect(res.body[1].created_at).toBe(playlist2.created_at)
 
-      expect(res.body[1]).toHaveProperty('updatedAt')
+      expect(res.body[1]).toHaveProperty('updated_at')
       expect(res.body[1].created_at).toBe(playlist2.updated_at)
     })
 
@@ -161,7 +161,7 @@ describe('Test PUT api/v1/playlists/:id', () => {
     expect(res.body.error).toBe("Playlist with title: Cleaning House already exists")
   })
 });
-    
+
 describe('Test DELETE api/v1/playlists/:id', () => {
   beforeEach(async () => {
     await database.raw('truncate table playlists cascade');
@@ -172,7 +172,7 @@ describe('Test DELETE api/v1/playlists/:id', () => {
     }
     await database('playlists').insert(playlistData);
   });
-    
+
   it('should delete a playlist song by id', async() => {
     let res = await request(app)
                   .delete('/api/v1/playlists/1')
