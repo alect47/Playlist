@@ -57,3 +57,55 @@ describe('Test POST api/v1/playlists', () => {
     expect(res.body.error).toBe("Playlist with title: Cleaning House already exists")
   })
 });
+
+describe('Test PUT api/v1/playlists/:id', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table playlists cascade');
+
+    let playlistData = {
+      id: 1,
+      title: "Cleaning House",
+    }
+    await database('playlists').insert(playlistData);
+  });
+
+  afterEach(() => {
+    database.raw('truncate table playlists cascade');
+  });
+
+  it('should update a playlist by id', async() => {
+    let body = {"title": "Updated Title"}
+    const res = await request(app)
+                  .put('/api/v1/playlists/1')
+                  .send(body)
+    expect(res.statusCode).toBe(200)
+
+    expect(res.body[0]).toHaveProperty('title')
+    expect(res.body[0].title).toBe("Updated Title")
+  })
+
+  it('should generate error message for sad path', async() => {
+    const res = await request(app)
+                  .put('/api/v1/playlists/10')
+    expect(res.statusCode).toBe(400)
+    expect(res.body.error).toBe("Please provide a title")
+  })
+
+  it('should generate error for resource not found', async() => {
+    let body = {"title": "Updated Title"}
+    const res = await request(app)
+                  .put('/api/v1/playlists/10')
+                  .send(body)
+    expect(res.statusCode).toBe(404)
+  })
+
+  it('should not allow duplicate titles', async() => {
+    let body = {"title": "Cleaning House"}
+
+    const res = await request(app)
+                  .put('/api/v1/playlists/10')
+                  .send(body)
+    expect(res.statusCode).toBe(400)
+    expect(res.body.error).toBe("Playlist with title: Cleaning House already exists")
+  })
+});
