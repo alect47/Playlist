@@ -40,4 +40,33 @@ router.post('/', (request, response) => {
     }
 });
 
+router.get('/', (request, response) => {
+  database('playlists').select('*')
+    .then(playlists => {
+      if (playlists.length) {
+        formatPlaylistArray(playlists)
+          .then(data => {
+            response.status(200).send(data)
+          })
+      } else {
+        response.status(404).json({ error: 'No playlists found'})
+      }
+    })
+});
+
+async function formatPlaylistArray(playlists){
+  let playlistArray = []
+  await asyncForEach(playlists, async (playlistElement) => {
+    let formattedPlaylist = await new Playlist(playlistElement)
+    playlistArray.push(formattedPlaylist)
+  })
+  return playlistArray;
+}
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array);
+  }
+}
+
 module.exports = router;

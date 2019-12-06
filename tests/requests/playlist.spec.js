@@ -57,3 +57,58 @@ describe('Test POST api/v1/playlists', () => {
     expect(res.body.error).toBe("Playlist with title: Cleaning House already exists")
   })
 });
+
+describe('Test GET api/v1/playlists', () => {
+  beforeEach(async () => {
+     await database.raw('truncate table playlists cascade');
+   })
+    it('should get all playlists', async() => {
+      const bodyTitle1 = { "title": "Test Title 1" }
+      const bodyTitle2 = { "title": "Test Title 2"}
+      let playlist1 = await request(app)
+                .post("/api/v1/playlists")
+                .send(bodyTitle1)
+      let playlist2 = await request(app)
+                .post("/api/v1/playlists")
+                .send(bodyTitle2)
+      const res = await request(app).get("/api/v1/playlists")
+
+      expect(res.statusCode).toBe(200)
+
+      expect(res.body[0]).toHaveProperty('id')
+
+      expect(res.body[0]).toHaveProperty('title')
+      expect(res.body[0].title).toBe("Test Title 1")
+
+      expect(res.body[0]).toHaveProperty('createdAt')
+      expect(res.body[0].created_at).toBe(playlist1.created_at)
+
+      expect(res.body[0]).toHaveProperty('updatedAt')
+      expect(res.body[0].updated_at).toBe(playlist1.updated_at)
+
+
+      expect(res.statusCode).toBe(200)
+
+      expect(res.body[1]).toHaveProperty('id')
+
+      expect(res.body[1]).toHaveProperty('title')
+      expect(res.body[1].title).toBe("Test Title 2")
+
+      expect(res.body[1]).toHaveProperty('createdAt')
+      expect(res.body[1].created_at).toBe(playlist2.created_at)
+
+      expect(res.body[1]).toHaveProperty('updatedAt')
+      expect(res.body[1].created_at).toBe(playlist2.updated_at)
+    })
+
+    it('should generate error message for sad path', async() => {
+      const res = await request(app).get("/api/v1/playlists")
+
+      expect(res.statusCode).toBe(404)
+      expect(res.body.error).toBe("No playlists found")
+    })
+
+  afterEach(() => {
+    database.raw('truncate table playlists cascade');
+  });
+});
