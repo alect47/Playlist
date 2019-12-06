@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const Playlist = require('../../../models/playlist')
 
 
 const environment = process.env.NODE_ENV || 'development';
