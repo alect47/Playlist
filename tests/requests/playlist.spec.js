@@ -132,8 +132,8 @@ describe('Test PUT api/v1/playlists/:id', () => {
                   .send(body)
     expect(res.statusCode).toBe(200)
 
-    expect(res.body[0]).toHaveProperty('title')
-    expect(res.body[0].title).toBe("Updated Title")
+    expect(res.body).toHaveProperty('title')
+    expect(res.body.title).toBe("Updated Title")
   })
 
   it('should generate error message for sad path', async() => {
