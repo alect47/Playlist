@@ -25,9 +25,9 @@ describe('Test POST api/v1/playlists', () => {
     expect(res.body).toHaveProperty('title')
     expect(res.body.title).toBe("Cleaning House")
 
-    expect(res.body).toHaveProperty('createdAt')
+    expect(res.body).toHaveProperty('created_at')
 
-    expect(res.body).toHaveProperty('updatedAt')
+    expect(res.body).toHaveProperty('updated_at')
 
     expect(res.body).toHaveProperty('id')
   })
