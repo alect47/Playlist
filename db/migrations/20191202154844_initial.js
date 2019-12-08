@@ -7,6 +7,9 @@ exports.up = function(knex) {
       table.string('artistName');
       table.string('genre');
       table.integer('rating');
+      table.integer('playlist_id').unsigned()
+      table.foreign('playlist_id')
+        .references('playlists.id');
 
       table.timestamps(true, true);
     })
