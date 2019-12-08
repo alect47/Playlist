@@ -4,8 +4,6 @@ exports.up = function(knex) {
       table.integer('playlist_id').unsigned()
       table.foreign('playlist_id')
         .references('playlists.id');
-
-      table.timestamps(true, true);
     })
   ])
 };
