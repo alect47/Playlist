@@ -1,6 +1,6 @@
 exports.up = function(knex) {
   return Promise.all([
-    knex.schema.table('favorites', function(table) {
+    knex.schema.alterTable('favorites', function(table) {
       table.integer('playlist_id').unsigned()
       table.foreign('playlist_id')
         .references('playlists.id');
@@ -10,6 +10,8 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return Promise.all([
-    knex.schema.dropColumn('playlist_id')
+    knex.schema.alterTable('favorites', function(table){
+      table.dropColumn('playlist_id');
+    })
   ])
 };
