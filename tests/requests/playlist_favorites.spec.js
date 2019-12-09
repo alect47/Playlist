@@ -39,6 +39,7 @@ describe('Test POST api/v1/playlists/:id/favorites/:favorite_id', () => {
                   .post("/api/v1/playlists/1/favorites/2")
 
     expect(res.statusCode).toBe(201)
+    expect(res.body.success).toBe("{Song Title} has been added to {Playlist Title}!")
 // test message
 // check database was updated
   })
