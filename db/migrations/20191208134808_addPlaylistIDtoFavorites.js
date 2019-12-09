@@ -4,7 +4,7 @@ exports.up = function(knex) {
       table.increments('id').primary();
       table.integer('playlist_id').unsigned()
       table.foreign('playlist_id')
-        .references('playlists.id');
+        .references('playlists.id').onDelete('CASCADE');
       table.integer('favorites_id').unsigned()
       table.foreign('favorites_id')
         .references('favorites.id');
