@@ -39,8 +39,28 @@ describe('Test POST api/v1/playlists/:id/favorites/:favorite_id', () => {
                   .post("/api/v1/playlists/1/favorites/2")
 
     expect(res.statusCode).toBe(201)
-    expect(res.body.success).toBe("{Song Title} has been added to {Playlist Title}!")
-// test message
-// check database was updated
+    expect(res.body.success).toBe("Test Song has been added to Cleaning House!")
+  })
+
+  it('should not allow a playlist_favorite to be created twice', async() => {
+    const res = await request(app)
+                  .post("/api/v1/playlists/1/favorites/2")
+    const secondRes = await request(app)
+                  .post("/api/v1/playlists/1/favorites/2")
+
+    expect(secondRes.statusCode).toBe(400)
+  })
+
+  it('should not allow a playlist_favorite to be created with invalid playlist id', async() => {
+    const res = await request(app)
+                  .post("/api/v1/playlists/2/favorites/2")
+
+    expect(res.statusCode).toBe(400)
+  })
+  it('should not allow a playlist_favorite to be created with invalid favorite id', async() => {
+    const res = await request(app)
+                  .post("/api/v1/playlists/1/favorites/3")
+
+    expect(res.statusCode).toBe(400)
   })
 });
