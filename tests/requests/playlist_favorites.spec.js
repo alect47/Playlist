@@ -85,6 +85,13 @@ describe('Test DELETE api/v1/playlists/:id/favorites/:favorite_id', () => {
       rating: 14
     };
     await database('favorites').insert(song);
+
+    let playlistFavorite = {
+      id: 1,
+      playlist_id: playlist.id,
+      favorites_id: song.id
+    }
+    await database('playlist_favorites').insert(playlistFavorite);
   });
 
   afterEach(() => {
