@@ -134,28 +134,29 @@ router.post('/:id/favorites/:favorite_id', async (request, response) => {
 });
 
 router.delete('/:id/favorites/:favorite_id', async (request, response) => {
-  const playlistId = request.params.id
-  const favoriteId = request.params.favorite_id
+  let playlistId = request.params.id
+  let favoriteId = request.params.favorite_id
 
-  database('playlist_favorites')
+  let playlistRecord = await database('playlists').where('id', playlistId).first()
+  let songRecord = await database('favorites').where('id', favoriteId).first()
+
+  if (playlistRecord && songRecord) {
+    database('playlist_favorites')
       .where({playlist_id: playlistId, favorites_id: favoriteId})
       .then(data => {
         if (data) {
           database('playlist_favorites')
-              .where({playlist_id: playlistId, favorites_id: favoriteId})
-              .first()
-              .del()
-              .then(response.sendStatus(204))
-        } else {
-          response.sendStatus(404)
-        }
+            .where({playlist_id: playlistId, favorites_id: favoriteId})
+            .first()
+            .del()
+            .then(response.sendStatus(204))
+          } else {
+            response.sendStatus(404)
+          }
       })
-
-  // find playlist id and favorite id from params and fetch respective records from relevant tables.
-  // find playlist_favorite record where favorites_id = favorite_id from params
-  // delete record from playlist_favorite table
-  // check that favorite still exists on favorites table
-  // check that playlist still exists on playlists table
+  } else {
+    response.status(404).send("Invalid playlist or song")
+  }
 });
 
 module.exports = router;
