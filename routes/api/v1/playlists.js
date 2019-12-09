@@ -93,4 +93,21 @@ router.get('/', (request, response) => {
     })
 });
 
+router.post('/:id/favorites/:favorite_id', (request, response) => {
+  const playlistId = request.params.id
+  const favoriteId = request.params.favorite_id
+  // console.log('params', playlistId, favoriteId)
+  if (playlistId && favoriteId) {
+    database('playlist_favorites')
+      .insert({playlist_id: playlistId, favorites_id: favoriteId}, "id")
+        .then(playlistFavorite => {
+          response.status(201).send( "Success")
+          //"{Song Title} has been added to {Playlist Title}!")
+        })
+      }
+    else {
+      response.sendStatus(400)
+    }
+});
+
 module.exports = router;
