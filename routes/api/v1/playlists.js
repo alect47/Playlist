@@ -93,4 +93,49 @@ router.get('/', (request, response) => {
     })
 });
 
+router.post('/:id/favorites/:favorite_id', async (request, response) => {
+  const playlistId = request.params.id
+  const favoriteId = request.params.favorite_id
+  const songTitle = await database('favorites').where('id', favoriteId).first()
+      .then(song => {
+        if (song) {
+          return song.title
+        }
+        else {
+          return false
+        }
+      })
+
+  const playlistTitle = await database('playlists').where('id', playlistId).first()
+      .then(playlist => {
+        if (playlist) {
+          return playlist.title
+        } else {
+          return false
+        }
+      })
+
+    const playlistFav = await database('playlist_favorites')
+          .where({'playlist_id': playlistId, 'favorites_id': favoriteId})
+          .first()
+          .then(playFav => {
+            if (playFav) {
+              return true
+            } else {
+              return false
+            }
+          })
+
+  if (!playlistFav && songTitle && playlistTitle) {
+    database('playlist_favorites')
+      .insert({playlist_id: playlistId, favorites_id: favoriteId}, "id")
+        .then(playlistFavorite => {
+          response.status(201).json( {success: `${songTitle} has been added to ${playlistTitle}!`})
+        })
+      }
+    else {
+      response.sendStatus(400)
+    }
+});
+
 module.exports = router;
