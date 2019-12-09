@@ -101,8 +101,7 @@ router.post('/:id/favorites/:favorite_id', (request, response) => {
     database('playlist_favorites')
       .insert({playlist_id: playlistId, favorites_id: favoriteId}, "id")
         .then(playlistFavorite => {
-          response.status(201).send( "Success")
-          //"{Song Title} has been added to {Playlist Title}!")
+          response.status(201).json( {success: "{Song Title} has been added to {Playlist Title}!"})
         })
       }
     else {
