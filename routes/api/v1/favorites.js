@@ -17,15 +17,31 @@ router.post('/', (request, response) => {
   fetchMusic(title, artist)
     .then(musicData => {
       if(musicData) {
-        database('favorites')
-          .insert({ title: `${musicData.title}`, artistName: `${musicData.artistName}`, genre: `${musicData.genre}`, rating: `${musicData.rating}`}, "id")
-          .returning(["id", "title", "artistName", "genre", "rating"])
-          .then(data => response.status(201).send(data[0]))
+        songByTitle(`${musicData.title}`)
+        .then(findSong => {
+          if (findSong){
+            response.status(400).json({error: `${title} already exists.`})
+          } else {
+            database('favorites')
+            .insert({ title: `${musicData.title}`, artistName: `${musicData.artistName}`, genre: `${musicData.genre}`, rating: `${musicData.rating}`}, "id")
+            .returning(["id", "title", "artistName", "genre", "rating"])
+            .then(data => response.status(201).send(data[0]))
+          }
+        })
         } else {
           response.status(400).json({error: "Invalid song title or artist"})
         }
     })
 });
+
+async function songByTitle(title){
+  try {
+    let response = await database('favorites').where('title', title).first()
+    return response;
+  } catch (e) {
+    return e;
+  }
+}
 
 async function allFavorites() {
   try {
