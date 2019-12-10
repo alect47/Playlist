@@ -64,3 +64,39 @@ describe('Test POST api/v1/playlists/:id/favorites/:favorite_id', () => {
     expect(res.statusCode).toBe(400)
   })
 });
+
+describe('Test DELETE api/v1/playlists/:id/favorites/:favorite_id', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table playlists cascade');
+    await database.raw('truncate table favorites cascade');
+    await database.raw('truncate table playlist_favorites cascade');
+
+    let playlist = {
+      id: 1,
+      title: "Cleaning House",
+    }
+    await database('playlists').insert(playlist);
+
+    let song = {
+      id: 2,
+      title: "Test Song",
+      artistName: "Test Artist",
+      genre: "Test Genre",
+      rating: 14
+    };
+    await database('favorites').insert(song);
+  });
+
+  afterEach(() => {
+    database.raw('truncate table playlists cascade');
+    database.raw('truncate table favorites cascade');
+    database.raw('truncate table playlist_favorites cascade');
+  });
+
+  it('should delete a favorite from a playlist', async() => {
+    const res = await request(app)
+                  .delete("/api/v1/playlists/1/favorites/2")
+
+    expect(res.statusCode).toBe(204)
+  })
+});
