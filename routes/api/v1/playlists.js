@@ -7,11 +7,6 @@ const configuration = require('../../../knexfile')[environment];
 const database = require('knex')(configuration);
 const fetch = require('node-fetch');
 
-async function formatData(data) {
-  let playlist = await new Playlist(data);
-  return playlist;
-}
-
 router.post('/', (request, response) => {
   const title = request.body.title
 
