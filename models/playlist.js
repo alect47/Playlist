@@ -21,14 +21,17 @@ class Playlist {
     const promises = await favoriteData.map(async (favorite) => {
       let favoriteInfo = await this.getFavorite(favorite.favorites_id)
       return favoriteInfo
-  });
-  return Promise.all(promises).then(favorites => {
-    favorites.forEach(favorite => {
-      this.favorites.push(favorite)
-    })
-  });
-}
+    });
+    return Promise.all(promises).then(favorites => {
+      favorites.forEach(favorite => {
+        this.favorites.push(favorite)
+      })
+    });
+  }
 
+  async totalSongs() {
+     this.songCount = await this.favorites.length
+   }
 
 }
 
