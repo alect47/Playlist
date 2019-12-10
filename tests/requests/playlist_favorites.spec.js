@@ -64,3 +64,62 @@ describe('Test POST api/v1/playlists/:id/favorites/:favorite_id', () => {
     expect(res.statusCode).toBe(400)
   })
 });
+
+describe('Test GET /api/v1/playlists/id/favorites', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table playlists cascade');
+    await database.raw('truncate table favorites cascade');
+    await database.raw('truncate table playlist_favorites cascade');
+
+    let playlistData = {
+      id: 1,
+      title: "Cleaning House",
+    }
+
+    let songData = {
+      id: 2,
+      title: "Test Song",
+      artistName: "Test Artist",
+      genre: "Test Genre",
+      rating: 14
+    };
+
+    let otherSongData = {
+      id: 3,
+      title: "Test Song 2",
+      artistName: "Test Artist 2",
+      genre: "Test Genre 2",
+      rating: 14
+    };
+
+    let playlistFavorite = {
+      id: 1,
+      playlist_id: 1,
+      favorites_id: 2,
+    }
+    let otherPlaylistFavorite = {
+      id: 2,
+      playlist_id: 1,
+      favorites_id: 3,
+    }
+    await database('playlists').insert(playlistData);
+    await database('favorites').insert(otherSongData);
+    await database('favorites').insert(songData);
+    await database('playlist_favorites').insert(playlistFavorite);
+    await database('playlist_favorites').insert(otherPlaylistFavorite);
+  });
+
+  afterEach(() => {
+    database.raw('truncate table playlists cascade');
+    database.raw('truncate table favorites cascade');
+    database.raw('truncate table playlist_favorites cascade');
+  });
+
+  it('should get a playlist by id as well as an array of songs', async() => {
+    const res = await request(app)
+                  .get("/api/v1/playlists/1/favorites")
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toBe("Test Song has been added to Cleaning House!")
+  })
+});
