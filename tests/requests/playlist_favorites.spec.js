@@ -76,6 +76,11 @@ describe('Test GET /api/v1/playlists/id/favorites', () => {
       title: "Cleaning House",
     }
 
+    let playlistDataTwo = {
+      id: 2,
+      title: "Cleaning House",
+    }
+
     let songData = {
       id: 2,
       title: "Test Song",
@@ -89,7 +94,7 @@ describe('Test GET /api/v1/playlists/id/favorites', () => {
       title: "Test Song 2",
       artistName: "Test Artist 2",
       genre: "Test Genre 2",
-      rating: 14
+      rating: 15
     };
 
     let playlistFavorite = {
@@ -103,6 +108,7 @@ describe('Test GET /api/v1/playlists/id/favorites', () => {
       favorites_id: 3,
     }
     await database('playlists').insert(playlistData);
+    await database('playlists').insert(playlistDataTwo);
     await database('favorites').insert(otherSongData);
     await database('favorites').insert(songData);
     await database('playlist_favorites').insert(playlistFavorite);
@@ -120,6 +126,36 @@ describe('Test GET /api/v1/playlists/id/favorites', () => {
                   .get("/api/v1/playlists/1/favorites")
 
     expect(res.statusCode).toBe(200)
-    expect(res.body).toBe("Test Song has been added to Cleaning House!")
+
+    expect(res.body).toHaveProperty('id')
+    expect(res.body.id).toBe(1)
+
+    expect(res.body).toHaveProperty('title')
+    expect(res.body.title).toBe("Cleaning House")
+
+    expect(res.body).toHaveProperty('songCount')
+    expect(res.body.songCount).toBe(2)
+
+    expect(res.body).toHaveProperty('songAvgRating')
+    expect(res.body.songAvgRating).toBe(14.5)
+
+    expect(res.body).toHaveProperty('favorites')
+    expect(res.body.favorites[0].title).toBe('Test Song')
+  })
+  it('should get a 404 if invalid playlist id', async() => {
+    const res = await request(app)
+                  .get("/api/v1/playlists/100/favorites")
+
+    expect(res.statusCode).toBe(400)
+  })
+
+  it('should return empty array if no favorites', async() => {
+    const res = await request(app)
+                  .get("/api/v1/playlists/2/favorites")
+
+    expect(res.statusCode).toBe(200)
+
+    expect(res.body).toHaveProperty('favorites')
+    expect(res.body.favorites.length).toBe(0)
   })
 });
