@@ -6,6 +6,7 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('../../../knexfile')[environment];
 const database = require('knex')(configuration);
 const fetch = require('node-fetch');
+const Playlist = require('../../../models/playlist')
 
 async function formatData(data) {
   let playlist = await new Playlist(data);
@@ -90,6 +91,38 @@ router.get('/', (request, response) => {
       } else {
         response.status(404).json({ error: 'No playlists found'})
       }
+    })
+});
+
+router.get('/:id/favorites', async function (request, response) {
+
+  const playlistId = await request.params.id
+  const favoriteData = await database('playlist_favorites')
+    .where('playlist_id', playlistId)
+    .then(play_faves => {
+      return play_faves
+    })
+
+  const playlistData = await database('playlists').where('id', playlistId)
+    .then(playlists => {
+      if (playlists.length) {
+        return playlists[0]
+      } else {
+        response.status(404).json({ error: 'No playlists found'})
+      }
+    })
+    
+  let favoriteModel = await new Playlist(playlistData, favoriteData )
+  await favoriteModel.addFavorite(favoriteData)
+  // await console.log(favoriteModel)
+  await database('playlists').where('id', playlistId)
+    .then(playlists => {
+      console.log(favoriteModel)
+      // if (playlists.length) {
+      //   response.status(200).send(favoriteModel)
+      // } else {
+      //   response.status(404).json({ error: 'No playlists found'})
+      // }
     })
 });
 
