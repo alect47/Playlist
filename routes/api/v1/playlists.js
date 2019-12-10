@@ -7,11 +7,6 @@ const configuration = require('../../../knexfile')[environment];
 const database = require('knex')(configuration);
 const fetch = require('node-fetch');
 
-async function formatData(data) {
-  let playlist = await new Playlist(data);
-  return playlist;
-}
-
 router.post('/', (request, response) => {
   const title = request.body.title
 
@@ -136,6 +131,32 @@ router.post('/:id/favorites/:favorite_id', async (request, response) => {
     else {
       response.sendStatus(400)
     }
+});
+
+router.delete('/:id/favorites/:favorite_id', async (request, response) => {
+  let playlistId = request.params.id
+  let favoriteId = request.params.favorite_id
+
+  let playlistRecord = await database('playlists').where('id', playlistId).first()
+  let songRecord = await database('favorites').where('id', favoriteId).first()
+
+  if (playlistRecord && songRecord) {
+    database('playlist_favorites')
+      .where({playlist_id: playlistId, favorites_id: favoriteId})
+      .then(data => {
+        if (data) {
+          database('playlist_favorites')
+            .where({playlist_id: playlistId, favorites_id: favoriteId})
+            .first()
+            .del()
+            .then(response.sendStatus(204))
+          } else {
+            response.sendStatus(404)
+          }
+      })
+  } else {
+    response.status(404).send("Invalid playlist or song")
+  }
 });
 
 module.exports = router;
