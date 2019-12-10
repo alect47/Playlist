@@ -94,36 +94,44 @@ router.get('/', (request, response) => {
     })
 });
 
+async function findPlaylist(id) {
+  try {
+    let response = await database('playlists').where('id', id)
+    return response;
+  } catch(err) {
+    return err;
+  }
+}
+
 router.get('/:id/favorites', async function (request, response) {
 
   const playlistId = await request.params.id
-  const favoriteData = await database('playlist_favorites')
-    .where('playlist_id', playlistId)
-    .then(play_faves => {
-      return play_faves
+
+  findPlaylist(playlistId)
+    .then(async playlist => {
+      console.log("playlist")
+      if (playlist.length) {
+        let favoriteModel = await new Playlist(playlist[0])
+        await favoriteModel.getAllFavorites(playlistId)
+        await favoriteModel.totalSongs()
+        await favoriteModel.averageRating()
+        response.status(200).send(favoriteModel)
+      } else {
+        response.status(404).json({
+          error: `No playlist found with that id`
+        });
+      }
+
     })
 
-  const playlistData = await database('playlists').where('id', playlistId)
-    .then(playlists => {
-      if (playlists.length) {
-        return playlists[0]
-      } else {
-        response.status(404).json({ error: 'No playlists found'})
-      }
-    })
-    
-  let favoriteModel = await new Playlist(playlistData, favoriteData )
-  await favoriteModel.addFavorite(favoriteData)
+  // let favoriteModel = await new Playlist(playlistData)
+  // await favoriteModel.getAllFavorites(playlistId)
+  // console.log(favoriteModel)
+  // await favoriteModel.addFavorite(favoriteData)
+  // await favoriteModel.totalSongs()
+  // await favoriteModel.averageRating()
   // await console.log(favoriteModel)
-  await database('playlists').where('id', playlistId)
-    .then(playlists => {
-      console.log(favoriteModel)
-      // if (playlists.length) {
-      //   response.status(200).send(favoriteModel)
-      // } else {
-      //   response.status(404).json({ error: 'No playlists found'})
-      // }
-    })
+
 });
 
 router.post('/:id/favorites/:favorite_id', async (request, response) => {
