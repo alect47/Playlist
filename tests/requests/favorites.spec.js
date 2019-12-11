@@ -7,6 +7,14 @@ const configuration = require('../../knexfile')[environment];
 const database = require('knex')(configuration);
 
 describe('Test POST api/v1/favorites', () => {
+  beforeEach(async () => {
+     await database.raw('truncate table favorites cascade');
+   
+  });
+
+   afterEach(() => {
+     database.raw('truncate table favorites cascade');
+   });
   it('should create a new favorite', async() => {
     const body = { "song_title": "beginners luck", "artist": "maribou state" }
     const res = await request(app)
