@@ -6,6 +6,7 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('../../../knexfile')[environment];
 const database = require('knex')(configuration);
 const fetch = require('node-fetch');
+const playlistHelper = require('../../../helpers/playlistHelper')
 const Playlist = require('../../../models/playlist')
 
 router.post('/', (request, response) => {
@@ -82,7 +83,10 @@ router.get('/', (request, response) => {
   database('playlists').select('*')
     .then(playlists => {
       if (playlists.length) {
-        response.status(200).send(playlists)
+        playlistHelper.makePlaylists(playlists)
+        .then(allPlaylists =>
+          response.status(200).send(allPlaylists)
+        )
       } else {
         response.status(400).json({ error: 'No playlists found'})
       }

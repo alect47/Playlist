@@ -61,21 +61,60 @@ describe('Test POST api/v1/playlists', () => {
 describe('Test GET api/v1/playlists', () => {
   beforeEach(async () => {
     await database.raw('truncate table playlists cascade');
-  });
+    await database.raw('truncate table favorites cascade');
+    await database.raw('truncate table playlist_favorites cascade');
 
-  afterEach(() => {
-    database.raw('truncate table playlists cascade');
-  });
+    let playlistData = {
+      id: 1,
+      title: "Cleaning House",
+    }
 
-    it('should get all playlists', async() => {
-      const bodyTitle1 = { "title": "Test Title 1" }
-      const bodyTitle2 = { "title": "Test Title 2"}
-      let playlist1 = await request(app)
-                .post("/api/v1/playlists")
-                .send(bodyTitle1)
-      let playlist2 = await request(app)
-                .post("/api/v1/playlists")
-                .send(bodyTitle2)
+    let playlistDataTwo = {
+      id: 2,
+      title: "Cleaning House",
+    }
+
+    let songData = {
+      id: 2,
+      title: "Test Song",
+      artistName: "Test Artist",
+      genre: "Test Genre",
+      rating: 14
+    };
+
+    let otherSongData = {
+      id: 3,
+      title: "Test Song 2",
+      artistName: "Test Artist 2",
+      genre: "Test Genre",
+      rating: 15
+    };
+
+    let playlistFavorite = {
+      id: 1,
+      playlist_id: 1,
+      favorites_id: 2,
+    }
+    let otherPlaylistFavorite = {
+      id: 2,
+      playlist_id: 1,
+      favorites_id: 3,
+    }
+      await database('playlists').insert(playlistData);
+      await database('playlists').insert(playlistDataTwo);
+      await database('favorites').insert(otherSongData);
+      await database('favorites').insert(songData);
+      await database('playlist_favorites').insert(playlistFavorite);
+      await database('playlist_favorites').insert(otherPlaylistFavorite);
+    });
+
+      afterEach(() => {
+        database.raw('truncate table playlists cascade');
+        database.raw('truncate table favorites cascade');
+        database.raw('truncate table playlist_favorites cascade');
+      });
+
+    it('should get all playlists and associated favorites', async() => {
       const res = await request(app).get("/api/v1/playlists")
 
       expect(res.statusCode).toBe(200)
@@ -83,13 +122,23 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[0]).toHaveProperty('id')
 
       expect(res.body[0]).toHaveProperty('title')
-      expect(res.body[0].title).toBe("Test Title 1")
+      expect(res.body[0].title).toBe("Cleaning House")
 
       expect(res.body[0]).toHaveProperty('created_at')
-      expect(res.body[0].created_at).toBe(playlist1.body.created_at)
 
       expect(res.body[0]).toHaveProperty('updated_at')
-      expect(res.body[0].updated_at).toBe(playlist1.body.updated_at)
+
+      expect(res.body[0]).toHaveProperty('songCount')
+      expect(res.body[0].songCount).toBe(2)
+
+      expect(res.body[0]).toHaveProperty('songAvgRating')
+      expect(res.body[0].songAvgRating).toBe(14.5)
+
+      expect(res.body[0]).toHaveProperty('favorites')
+      expect(res.body[0].favorites[0].title).toBe('Test Song')
+
+      expect(res.body[1]).toHaveProperty('favorites')
+      expect(res.body[1].favorites.length).toBe(0)
 
 
       expect(res.statusCode).toBe(200)
@@ -97,16 +146,17 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[1]).toHaveProperty('id')
 
       expect(res.body[1]).toHaveProperty('title')
-      expect(res.body[1].title).toBe("Test Title 2")
+      expect(res.body[1].title).toBe("Cleaning House")
 
       expect(res.body[1]).toHaveProperty('created_at')
-      expect(res.body[1].created_at).toBe(playlist2.body.created_at)
 
       expect(res.body[1]).toHaveProperty('updated_at')
-      expect(res.body[1].created_at).toBe(playlist2.body.updated_at)
     })
 
     it('should generate error message for sad path', async() => {
+      await database.raw('truncate table playlists cascade');
+      await database.raw('truncate table favorites cascade');
+      await database.raw('truncate table playlist_favorites cascade');
       const res = await request(app).get("/api/v1/playlists")
 
       expect(res.statusCode).toBe(400)
