@@ -82,6 +82,8 @@ router.get('/', (request, response) => {
   database('playlists').select('*')
     .then(playlists => {
       if (playlists.length) {
+        
+        console.log(playlists)
         response.status(200).send(playlists)
       } else {
         response.status(400).json({ error: 'No playlists found'})
