@@ -14,18 +14,18 @@ class Playlist {
     this.updated_at = playlistData.updated_at;
   }
 
- async getFavorite(favoriteId) {
-    let data = database('favorites').where('id', favoriteId).first()
-    return data
-  }
+ // async getFavorite(favoriteId) {
+ //    let data = database('favorites').where('id', favoriteId).first()
+ //    return data
+ //  }
 
  async getAllFavorites(playlistId) {
-
     try {
       let response = await database('playlist_favorites')
                 .select('favorites.id', 'favorites.title', 'favorites.artistName', 'favorites.genre', 'favorites.rating')
                 .join('favorites', {'favorites.id': 'playlist_favorites.favorites_id'})
                 .where('playlist_favorites.playlist_id', playlistId)
+      console.log("response message", response)
       this.favorites = response
     } catch(err) {
       return err;
@@ -33,7 +33,9 @@ class Playlist {
   }
 
   async totalSongs() {
-     this.songCount = await this.favorites.length
+    if (this.favorites.length) {
+      this.songCount = await this.favorites.length
+    }
    }
 
   async totalRating() {
@@ -45,9 +47,13 @@ class Playlist {
    }
 
    async averageRating() {
-      let count = await this.songCount
-      let totalRating = await this.totalRating()
-      this.songAvgRating = (totalRating/count)
+     if (this.favorites.length) {
+       let count = await this.songCount
+       let totalRating = await this.totalRating()
+       this.songAvgRating = (totalRating/count)
+     } else {
+       this.songAvgRating = 0
+     }
     }
 
 }
