@@ -101,7 +101,7 @@ In Postman, append the url to expose the below endpoints or click the `Run in Po
 
 ### Song Endpoints
 
-<a name="post-favorites"/>
+<!-- <a name="post-favorites"/> -->
 
 #### Request:
 ##### POST /api/v1/favorites
