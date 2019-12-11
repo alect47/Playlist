@@ -66,12 +66,12 @@ describe('Test GET api/v1/playlists', () => {
 
     let playlistData = {
       id: 1,
-      title: "Test Title 1",
+      title: "Cleaning House",
     }
 
     let playlistDataTwo = {
       id: 2,
-      title: "Test Title 2",
+      title: "Cleaning House",
     }
 
     let songData = {
@@ -115,7 +115,6 @@ describe('Test GET api/v1/playlists', () => {
       });
 
     it('should get all playlists and associated favorites', async() => {
-
       const res = await request(app).get("/api/v1/playlists")
 
       expect(res.statusCode).toBe(200)
@@ -123,7 +122,7 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[0]).toHaveProperty('id')
 
       expect(res.body[0]).toHaveProperty('title')
-      expect(res.body[0].title).toBe("Test Title 1")
+      expect(res.body[0].title).toBe("Cleaning House")
 
       expect(res.body[0]).toHaveProperty('created_at')
 
@@ -147,7 +146,7 @@ describe('Test GET api/v1/playlists', () => {
       expect(res.body[1]).toHaveProperty('id')
 
       expect(res.body[1]).toHaveProperty('title')
-      expect(res.body[1].title).toBe("Test Title 2")
+      expect(res.body[1].title).toBe("Cleaning House")
 
       expect(res.body[1]).toHaveProperty('created_at')
 

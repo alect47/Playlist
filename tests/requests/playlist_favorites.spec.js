@@ -159,7 +159,7 @@ describe('Test GET /api/v1/playlists/id/favorites', () => {
         expect(res.body.favorites.length).toBe(0)
       })
     });
-    
+
 
 describe('Test DELETE api/v1/playlists/:id/favorites/:favorite_id', () => {
   beforeEach(async () => {
