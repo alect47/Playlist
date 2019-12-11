@@ -84,7 +84,9 @@ router.get('/', (request, response) => {
     .then(playlists => {
       if (playlists.length) {
         playlistHelper.makePlaylists(playlists)
-        response.status(200).send(playlists)
+        .then(allPlaylists =>
+          response.status(200).send(allPlaylists)
+        )
       } else {
         response.status(400).json({ error: 'No playlists found'})
       }
