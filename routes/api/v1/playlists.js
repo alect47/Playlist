@@ -89,7 +89,7 @@ router.get('/', (request, response) => {
       if (playlists.length) {
         response.status(200).send(playlists)
       } else {
-        response.status(404).json({ error: 'No playlists found'})
+        response.status(400).json({ error: 'No playlists found'})
       }
     })
 });
@@ -109,7 +109,6 @@ router.get('/:id/favorites', async function (request, response) {
 
   findPlaylist(playlistId)
     .then(async playlist => {
-      console.log("playlist")
       if (playlist.length) {
         let favoriteModel = await new Playlist(playlist[0])
         await favoriteModel.getAllFavorites(playlistId)
@@ -117,21 +116,12 @@ router.get('/:id/favorites', async function (request, response) {
         await favoriteModel.averageRating()
         response.status(200).send(favoriteModel)
       } else {
-        response.status(404).json({
+        response.status(400).json({
           error: `No playlist found with that id`
         });
       }
 
     })
-
-  // let favoriteModel = await new Playlist(playlistData)
-  // await favoriteModel.getAllFavorites(playlistId)
-  // console.log(favoriteModel)
-  // await favoriteModel.addFavorite(favoriteData)
-  // await favoriteModel.totalSongs()
-  // await favoriteModel.averageRating()
-  // await console.log(favoriteModel)
-
 });
 
 router.post('/:id/favorites/:favorite_id', async (request, response) => {
