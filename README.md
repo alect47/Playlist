@@ -11,12 +11,12 @@ This Express app consumes MusixMatch API and exposes endpoints that return song 
 ## Areas of focus:
 * Create an Express API given specified endpoints and response formats
 * Testing using Jest, with coverage at or above 95%
-* Continuous integration using Travis CI <!-- add updated Travis CI links -->
-<!-- [![Build Status](https://travis-ci.com/turingschool-examples/all-your-base.svg?branch=master)](https://travis-ci.com/turingschool-examples/all-your-base) -->
+* Continuous integration using Travis CI
 * Project management using [GitHub Projects](https://github.com/alect47/Playlist/projects/1)
 * Advanced git workflow using development, staging and production environments
 * Agile workflow - building project in sprints, daily standups, writing detailed user stories
 * Deploying to staging and production environments each feature only after it was fully tested and functional in development.
+* Migrations for many to many database relationship using Knex.  Please see [database schema](#db-schema) design below.
 
 ## Tech Stack
 
@@ -304,3 +304,9 @@ body:
 ```
 status: 204
 ```
+
+## Database Schema
+
+<a name="db-schema"/>
+
+![db_diagram.png](./db/schema_diagram/db_diagram.png)
