@@ -124,6 +124,7 @@ body:
 }
 ```
 <a name="get-favorites-index"/>
+
 #### Request: `GET /api/v1/favorites`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/55c671d7f662fb8e1f19)
 
@@ -147,6 +148,7 @@ body:
 ]
 ```
 <a name="get-favorites-show"/>
+
 #### Request: `GET /api/v1/favorites/:id`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/d332f8e3bafb3e3169cd)
 
@@ -161,6 +163,7 @@ body:
 }
 ```
 <a name="delete-favorites"/>
+
 #### Request: `DELETE /api/v1/favorites/:id`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/75f1ceae19444b5801ea)
 
@@ -169,6 +172,7 @@ body:
 
 ## Playlist Endpoints
 <a name="post-playlists"/>
+
 #### Request: `POST /api/v1/playlists`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/3fefb103efbbfd603c12)
 
@@ -190,6 +194,7 @@ body:
 }
 ```
 <a name="get-playlists-index"/>
+
 #### Request: `GET /api/v1/playlists`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/065285e1d0f5804951a9)
 
@@ -213,6 +218,7 @@ body:
 ]
 ```
 <a name="put-playlists"/>
+
 #### Request: `PUT /api/v1/playlists/:id`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c13b4417c4908e2cb820)
 
@@ -234,6 +240,7 @@ body:
   }
 ```
 <a name="delete-playlists"/>
+
 #### Request: `DELETE /api/v1/playlists/:id`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/9fb85feeced009d372bf)
 
@@ -244,6 +251,7 @@ status: 204
 
 ## Playlist-Songs Endpoints
 <a name="post-playlist-favorites"/>
+
 #### Request: `POST /api/v1/playlists/:id/favorites/:favorite_id`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6b065a4284d434892103)
 
@@ -254,6 +262,7 @@ body:
 "Success": "We Will Rock You has been added to Cleaning House!"
 ```
 <a name="get-playlist-favorites"/>
+
 #### Request: `GET /api/v1/playlists/:id/favorites`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/287ce413fd2959ddc4b6)
 
@@ -288,6 +297,7 @@ body:
 ```
 
 <a name="delete-playlist-favorites"/>
+
 #### Request: `DELETE /api/v1/playlists/:id/favorites/:favorite_id`
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7cc303b88bb5f312b220)
 
