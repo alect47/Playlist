@@ -85,28 +85,30 @@ When the tests have completed, you’ll get a read out of how things panned out.
 ## Running in Postman
 In Postman, append the url to expose the below endpoints or click the `Run in Postman` button.
 
+
 ### Endpoints
-1. [POST /api/v1/favorites](#post-favorites)
-2. [GET /api/v1/favorites](#get-favorites-index)
-3. [GET /api/v1/favorites/:id](#get-favorites-show)
-4. [DELETE /api/v1/favorites](#delete-favorites)
-5. [POST /api/v1/playlists](#post-playlists)
-6. [GET /api/v1/playlists](#get-playlists-index)
-7. [PUT /api/v1/playlists/:id](#put-playlists)
-8. [DELETE /api/v1/playlists/:id](#delete-playlists)
-9. [POST /api/v1/playlists/:id/favorites/:favorite_id](#post-playlist-favorites)
-10. [GET /api/v1/playlists/:id/favorites](#get-playlist-favorites)
-11. [DELETE /api/v1/playlists/:id/favorites/:favorite_id](#delete-playlist-favorites)
+1. [POST /api/v1/favorites](#post-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fea5aca46bf51d4b559e)
+2. [GET /api/v1/favorites](#get-favorites-index) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/55c671d7f662fb8e1f19)
+3. [GET /api/v1/favorites/:id](#get-favorites-show) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/d332f8e3bafb3e3169cd)
+4. [DELETE /api/v1/favorites](#delete-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/75f1ceae19444b5801ea)
+5. [POST /api/v1/playlists](#post-playlists) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/3fefb103efbbfd603c12)
+6. [GET /api/v1/playlists](#get-playlists-index) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/065285e1d0f5804951a9)
+7. [PUT /api/v1/playlists/:id](#put-playlists) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c13b4417c4908e2cb820)
+8. [DELETE /api/v1/playlists/:id](#delete-playlists) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/9fb85feeced009d372bf)
+9. [POST /api/v1/playlists/:id/favorites/:favorite_id](#post-playlist-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6b065a4284d434892103)
+10. [GET /api/v1/playlists/:id/favorites](#get-playlist-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/287ce413fd2959ddc4b6)
+11. [DELETE /api/v1/playlists/:id/favorites/:favorite_id](#delete-playlist-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7cc303b88bb5f312b220)
 
 ### Song Endpoints
 <a name="post-favorites"/>
 #### Request:
 ##### POST /api/v1/favorites
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fea5aca46bf51d4b559e)
 ```
 body:
 {
-  "title": "We Will Rock You",
-  "artistName": "Queen",
+  "song_title": "We Will Rock You",
+  "artist": "Queen",
 }
 ```
 #### Expected Successful Response:
@@ -124,6 +126,7 @@ body:
 <a name="get-favorites-index"/>
 #### Request:
 ##### GET /api/v1/favorites
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/55c671d7f662fb8e1f19)
 
 #### Expected Successful Response:
 ```
@@ -147,6 +150,7 @@ body:
 <a name="get-favorites-show"/>
 #### Request:
 ##### GET /api/v1/favorites/:id
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/d332f8e3bafb3e3169cd)
 
 #### Expected Successful Response:
 ```
@@ -161,6 +165,7 @@ body:
 <a name="delete-favorites"/>
 #### Request:
 ##### DELETE /api/v1/favorites/:id
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/75f1ceae19444b5801ea)
 
 #### Expected Successful Response:
 `status code 204`
@@ -169,6 +174,8 @@ body:
 <a name="post-playlists"/>
 #### Request:
 ##### POST /api/v1/playlists
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/3fefb103efbbfd603c12)
+
 ```
 body:
 {
@@ -189,6 +196,7 @@ body:
 <a name="get-playlists-index"/>
 #### Request:
 ##### GET /api/v1/playlists
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/065285e1d0f5804951a9)
 
 #### Expected Successful Response:
 ```
@@ -212,6 +220,8 @@ body:
 <a name="put-playlists"/>
 #### Request:
 ##### PUT /api/v1/playlists/:id
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c13b4417c4908e2cb820)
+
 ```
 body:
 {
@@ -232,6 +242,7 @@ body:
 <a name="delete-playlists"/>
 #### Request:
 ##### DELETE /api/v1/playlists/:id
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/9fb85feeced009d372bf)
 
 #### Expected Successful Response:
 ```
@@ -242,6 +253,7 @@ status: 204
 <a name="post-playlist-favorites"/>
 #### Request:
 ##### POST /api/v1/playlists/:id/favorites/:favorite_id
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6b065a4284d434892103)
 
 #### Expected Successful Response:
 ```
@@ -252,6 +264,7 @@ body:
 <a name="get-playlist-favorites"/>
 #### Request:
 ##### GET /api/v1/playlists/:id/favorites
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/287ce413fd2959ddc4b6)
 
 #### Expected Successful Response:
 ```
@@ -286,6 +299,7 @@ body:
 <a name="delete-playlist-favorites"/>
 #### Request:
 ##### DELETE /api/v1/playlists/:id/favorites/:favorite_id
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7cc303b88bb5f312b220)
 
 #### Expected Successful Response:
 ```
