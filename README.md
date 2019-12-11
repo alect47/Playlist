@@ -99,13 +99,12 @@ In Postman, append the url to expose the below endpoints or click the `Run in Po
 10. [GET /api/v1/playlists/:id/favorites](#get-playlist-favorites)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/287ce413fd2959ddc4b6)
 11. [DELETE /api/v1/playlists/:id/favorites/:favorite_id](#delete-playlist-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7cc303b88bb5f312b220)
 
-### Song Endpoints
+## Song Endpoints
+<a name="post-favorites"/>
 
-<!-- <a name="post-favorites"/> -->
-
-#### Request:
-##### POST /api/v1/favorites
-<!-- [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fea5aca46bf51d4b559e) -->
+### Request:
+#### POST /api/v1/favorites
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fea5aca46bf51d4b559e)
 ```
 body:
 {
