@@ -84,11 +84,25 @@ When the tests have completed, you’ll get a read out of how things panned out.
 
 ## Running in Postman
 In Postman, append the url to expose the below endpoints or click the `Run in Postman` button.
-### Song Data
-#### Request:
-```
-POST /api/v1/favorites
 
+### Endpoints
+1. [POST /api/v1/favorites](#post-favorites)
+2. [GET /api/v1/favorites](#get-favorites-index)
+3. [GET /api/v1/favorites/:id](#get-favorites-show)
+4. [DELETE /api/v1/favorites](#delete-favorites)
+5. [POST /api/v1/playlists](#post-playlists)
+6. [GET /api/v1/playlists](#get-playlists-index)
+7. [PUT /api/v1/playlists/:id](#put-playlists)
+8. [DELETE /api/v1/playlists/:id](#delete-playlists)
+9. [POST /api/v1/playlists/:id/favorites/:favorite_id](#post-playlist-favorites)
+10. [GET /api/v1/playlists/:id/favorites](#get-playlist-favorites)
+11. [DELETE /api/v1/playlists/:id/favorites/:favorite_id](#delete-playlist-favorites)
+
+### Song Endpoints
+<a name="post-favorites"/>
+#### Request:
+##### POST /api/v1/favorites
+```
 body:
 {
   "title": "We Will Rock You",
@@ -106,4 +120,174 @@ body:
   "genre": "Rock",
   "rating": 88
 }
+```
+<a name="get-favorites-index"/>
+#### Request:
+##### GET /api/v1/favorites
+
+#### Expected Successful Response:
+```
+[
+  {
+    "id": 1,
+    "title": "We Will Rock You",
+    "artistName": "Queen"
+    "genre": "Rock",
+    "rating": 88
+  },
+  {
+    "id": 2,
+    "title": "Careless Whisper",
+    "artistName": "George Michael"
+    "genre": "Pop",
+    "rating": 93
+  },
+]
+```
+<a name="get-favorites-show"/>
+#### Request:
+##### GET /api/v1/favorites/:id
+
+#### Expected Successful Response:
+```
+{
+  "id": 1,
+  "title": "We Will Rock You",
+  "artistName": "Queen"
+  "genre": "Rock",
+  "rating": 88
+}
+```
+<a name="delete-favorites"/>
+#### Request:
+##### DELETE /api/v1/favorites/:id
+
+#### Expected Successful Response:
+`status code 204`
+
+### Playlist Endpoints
+<a name="post-playlists"/>
+#### Request:
+##### POST /api/v1/playlists
+```
+body:
+{
+  "title": "Cleaning House"
+}
+```
+#### Expected Successful Response:
+```
+status: 201
+body:
+{
+  "id": 1,
+  "title": "Cleaning House",
+  "created_at": 2019-11-26T16:03:43+00:00,
+  "updated_at": 2019-11-26T16:03:43+00:00,
+}
+```
+<a name="get-playlists-index"/>
+#### Request:
+##### GET /api/v1/playlists
+
+#### Expected Successful Response:
+```
+status: 200
+body:
+[
+  {
+    "id": 1,
+    "title": "Cleaning House",
+    "created_at": 2019-11-26T16:03:43+00:00,
+    "updated_at": 2019-11-26T16:03:43+00:00
+  },
+  {
+    "id": 2,
+    "title": "Running Mix",
+    "created_at": 2019-11-26T16:03:43+00:00,
+    "updated_at": 2019-11-26T16:03:43+00:00
+  },
+]
+```
+<a name="put-playlists"/>
+#### Request:
+##### PUT /api/v1/playlists/:id
+```
+body:
+{
+  "title": "Updated Title"
+}
+```
+#### Expected Successful Response:
+```
+status: 200
+body:
+{
+    "id": 1,
+    "title": "Updated Title",
+    "created_at": 2019-11-26T16:03:43+00:00,
+    "updated_at": 2019-11-26T16:03:43+00:00
+  }
+```
+<a name="delete-playlists"/>
+#### Request:
+##### DELETE /api/v1/playlists/:id
+
+#### Expected Successful Response:
+```
+status: 204
+```
+
+### Playlist-Songs Endpoints
+<a name="post-playlist-favorites"/>
+#### Request:
+##### POST /api/v1/playlists/:id/favorites/:favorite_id
+
+#### Expected Successful Response:
+```
+status: 201
+body:
+"Success": "We Will Rock You has been added to Cleaning House!"
+```
+<a name="get-playlist-favorites"/>
+#### Request:
+##### GET /api/v1/playlists/:id/favorites
+
+#### Expected Successful Response:
+```
+status: 200
+body:
+{
+  "id": 1,
+  "title": "Cleaning House",
+  "songCount": 2,
+  "songAvgRating": 27.5,
+  "favorites" : [
+                  {
+                    "id": 1,
+                    "title": "We Will Rock You",
+                    "artistName": "Queen"
+                    "genre": "Rock",
+                    "rating": 25
+                  },
+                  {
+                    "id": 4,
+                    "title": "Back In Black",
+                    "artistName": "AC/DC"
+                    "genre": "Rock",
+                    "rating": 30
+                  }
+               ],
+    "created_at": 2019-11-26T16:03:43+00:00,
+    "updated_at": 2019-11-26T16:03:43+00:00
+}
+```
+
+<a name="delete-playlist-favorites"/>
+#### Request:
+##### DELETE /api/v1/playlists/:id/favorites/:favorite_id
+
+#### Expected Successful Response:
+```
+status: 204
 ```
