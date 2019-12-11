@@ -109,7 +109,7 @@ describe('Test GET api/v1/playlists', () => {
     it('should generate error message for sad path', async() => {
       const res = await request(app).get("/api/v1/playlists")
 
-      expect(res.statusCode).toBe(404)
+      expect(res.statusCode).toBe(400)
       expect(res.body.error).toBe("No playlists found")
     })
 });
