@@ -8,7 +8,7 @@ A paired project completed in 10 days in Module 4 of Backend Engineering at Turi
 
 This Express app consumes MusixMatch API and exposes endpoints that return song data and playlist data.  The data format adheres to project specs provided by our instructors for each sprint.
 
-Areas of focus:
+## Areas of focus:
 * Create an Express API given specified endpoints and response formats
 * Testing using Jest, with coverage at or above 95%
 * Continuous integration using Travis CI
@@ -31,8 +31,8 @@ Areas of focus:
 ## Local Setup
 
 Before cloning the repository:
-* you will need to register and get an API key from [Musix Match](https://developer.musixmatch.com/)
-* download [Postman](https://www.getpostman.com/)
+* You will need to register and get an API key from [Musix Match](https://developer.musixmatch.com/)
+* Download [Postman](https://www.getpostman.com/)
 
 * `git clone git@github.com:alect47/Playlist.git`
 * `npm install` to install necessary dependencies
@@ -40,8 +40,8 @@ Before cloning the repository:
   * `MUSIXMATCH_API_KEY=<your Musix Match API Key>`
 
 To run the server: `npm start`
-* local server: `http://localhost:3000`
-* production site: `https://playlist-express.herokuapp.com/`
+* Local server: `http://localhost:3000`
+* Production site: `https://playlist-express.herokuapp.com/`
 
 #### Set up your local database
 You’ll need to figure out a name for your database. We suggest calling it something like `playlist_dev` and `playlist_test` for testing.
@@ -87,23 +87,23 @@ In Postman, append the url to expose the below endpoints or click the `Run in Po
 
 
 ### Endpoints
-1. [POST /api/v1/favorites](#post-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fea5aca46bf51d4b559e)
-2. [GET /api/v1/favorites](#get-favorites-index) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/55c671d7f662fb8e1f19)
+1. [POST /api/v1/favorites](#post-favorites)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fea5aca46bf51d4b559e)
+2. [GET /api/v1/favorites](#get-favorites-index)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/55c671d7f662fb8e1f19)
 3. [GET /api/v1/favorites/:id](#get-favorites-show) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/d332f8e3bafb3e3169cd)
-4. [DELETE /api/v1/favorites](#delete-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/75f1ceae19444b5801ea)
-5. [POST /api/v1/playlists](#post-playlists) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/3fefb103efbbfd603c12)
-6. [GET /api/v1/playlists](#get-playlists-index) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/065285e1d0f5804951a9)
-7. [PUT /api/v1/playlists/:id](#put-playlists) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c13b4417c4908e2cb820)
-8. [DELETE /api/v1/playlists/:id](#delete-playlists) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/9fb85feeced009d372bf)
-9. [POST /api/v1/playlists/:id/favorites/:favorite_id](#post-playlist-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6b065a4284d434892103)
-10. [GET /api/v1/playlists/:id/favorites](#get-playlist-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/287ce413fd2959ddc4b6)
+4. [DELETE /api/v1/favorites](#delete-favorites)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/75f1ceae19444b5801ea)
+5. [POST /api/v1/playlists](#post-playlists)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/3fefb103efbbfd603c12)
+6. [GET /api/v1/playlists](#get-playlists-index)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/065285e1d0f5804951a9)
+7. [PUT /api/v1/playlists/:id](#put-playlists)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c13b4417c4908e2cb820)
+8. [DELETE /api/v1/playlists/:id](#delete-playlists)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/9fb85feeced009d372bf)
+9. [POST /api/v1/playlists/:id/favorites/:favorite_id](#post-playlist-favorites)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/6b065a4284d434892103)
+10. [GET /api/v1/playlists/:id/favorites](#get-playlist-favorites)  [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/287ce413fd2959ddc4b6)
 11. [DELETE /api/v1/playlists/:id/favorites/:favorite_id](#delete-playlist-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7cc303b88bb5f312b220)
 
 ### Song Endpoints
 <a name="post-favorites"/>
 #### Request:
 ##### POST /api/v1/favorites
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fea5aca46bf51d4b559e)
+<!-- [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fea5aca46bf51d4b559e) -->
 ```
 body:
 {
