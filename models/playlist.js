@@ -25,7 +25,6 @@ class Playlist {
                 .select('favorites.id', 'favorites.title', 'favorites.artistName', 'favorites.genre', 'favorites.rating')
                 .join('favorites', {'favorites.id': 'playlist_favorites.favorites_id'})
                 .where('playlist_favorites.playlist_id', playlistId)
-      console.log("response message", response)
       this.favorites = response
     } catch(err) {
       return err;
