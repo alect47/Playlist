@@ -100,7 +100,9 @@ In Postman, append the url to expose the below endpoints or click the `Run in Po
 11. [DELETE /api/v1/playlists/:id/favorites/:favorite_id](#delete-playlist-favorites) [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7cc303b88bb5f312b220)
 
 ### Song Endpoints
+
 <a name="post-favorites"/>
+
 #### Request:
 ##### POST /api/v1/favorites
 <!-- [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/fea5aca46bf51d4b559e) -->
