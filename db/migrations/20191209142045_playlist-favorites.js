@@ -7,7 +7,7 @@ exports.up = function(knex) {
         .references('playlists.id').onDelete('CASCADE');
       table.integer('favorites_id').unsigned()
       table.foreign('favorites_id')
-        .references('favorites.id');
+        .references('favorites.id').onDelete('CASCADE');
     })
   ])
 };
