@@ -7,6 +7,14 @@ const configuration = require('../../knexfile')[environment];
 const database = require('knex')(configuration);
 
 describe('Test POST api/v1/favorites', () => {
+  beforeEach(async () => {
+     await database.raw('truncate table favorites cascade');
+   
+  });
+
+   afterEach(() => {
+     database.raw('truncate table favorites cascade');
+   });
   it('should create a new favorite', async() => {
     const body = { "song_title": "beginners luck", "artist": "maribou state" }
     const res = await request(app)
@@ -46,6 +54,20 @@ describe('Test POST api/v1/favorites', () => {
                   .send(body)
     expect(res.statusCode).toBe(201)
     expect(res.body.genre).toBe("Unknown")
+  })
+
+  it('should not allow duplicate favorites', async() => {
+    const body = { "song_title": "Chasing Pavement", "artist": "Adele" }
+    const res = await request(app)
+                  .post("/api/v1/favorites")
+                  .send(body)
+    expect(res.statusCode).toBe(201)
+
+    const duplicateBody = { "song_title": "Chasing Pavement", "artist": "Vanilla Ice vs Queen Bowie" }
+    const response = await request(app)
+                  .post("/api/v1/favorites")
+                  .send(duplicateBody)
+    expect(response.statusCode).toBe(400)
   })
 });
 
