@@ -47,6 +47,20 @@ describe('Test POST api/v1/favorites', () => {
     expect(res.statusCode).toBe(201)
     expect(res.body.genre).toBe("Unknown")
   })
+
+  it('should not allow duplicate favorites', async() => {
+    const body = { "song_title": "Chasing Pavement", "artist": "Adele" }
+    const res = await request(app)
+                  .post("/api/v1/favorites")
+                  .send(body)
+    expect(res.statusCode).toBe(201)
+
+    const duplicateBody = { "song_title": "Chasing Pavement", "artist": "Vanilla Ice vs Queen Bowie" }
+    const response = await request(app)
+                  .post("/api/v1/favorites")
+                  .send(duplicateBody)
+    expect(response.statusCode).toBe(400)
+  })
 });
 
 describe('Test GET api/v1/favorites', () => {
