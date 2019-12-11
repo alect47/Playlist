@@ -32,6 +32,7 @@ Before cloning the repository:
 * You will need to register and get an API key from [Musix Match](https://developer.musixmatch.com/)
 * Download [Postman](https://www.getpostman.com/)
 
+To get set up:
 * `git clone git@github.com:alect47/Playlist.git`
 * `npm install` to install necessary dependencies
 * Add `.env` file in the root directory and add your API keys:
